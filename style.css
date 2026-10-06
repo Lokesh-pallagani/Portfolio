@@ -1,0 +1,2471 @@
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root {
+  --bg: #f7f9fc;
+  --panel: rgba(255, 255, 255, 0.78);
+  --text: #0d1424;
+  --muted: #5f6b82;
+  --line: rgba(15, 23, 42, 0.12);
+
+  --blue: #2998ff;
+  --cyan: #19cfc9;
+  --violet: #7957ed;
+
+  --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+  --nav: rgba(255, 255, 255, 0.82);
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+html.dark {
+  --bg: #060914;
+  --panel: rgba(14, 21, 39, 0.72);
+  --text: #f8fbff;
+  --muted: #9ca8c2;
+  --line: rgba(148, 163, 184, 0.18);
+
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  --nav: rgba(5, 10, 23, 0.76);
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+.site-shell {
+  min-height: 100vh;
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at 80% 10%,
+      rgba(41, 152, 255, 0.1),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 15% 45%,
+      rgba(25, 207, 201, 0.06),
+      transparent 25%
+    );
+}
+
+/* =========================================================
+   GRID BACKGROUND
+========================================================= */
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  opacity: 0.25;
+
+  background-image:
+    linear-gradient(
+      rgba(100, 130, 180, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(100, 130, 180, 0.08) 1px,
+      transparent 1px
+    );
+
+  background-size: 55px 55px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    #000,
+    transparent 75%
+  );
+
+  animation: gridDrift 24s linear infinite;
+  z-index: 0;
+}
+
+/* =========================================================
+   CONTAINER / SECTIONS
+========================================================= */
+
+.container {
+  width: min(1180px, calc(100% - 36px));
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(1240px, calc(100% - 20px));
+
+  z-index: 50;
+
+  border: 1px solid var(--line);
+
+  background: var(--nav);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border-radius: 20px;
+
+  box-shadow: var(--shadow);
+}
+
+.nav-inner {
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-weight: 800;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      var(--violet)
+    );
+
+  color: #fff;
+
+  box-shadow:
+    0 0 30px rgba(41, 152, 255, 0.25);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-mark::after {
+  content: "";
+
+  position: absolute;
+  inset: -60%;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.3),
+      transparent 65%
+    );
+
+  transform:
+    translateX(-120%)
+    rotate(10deg);
+
+  animation:
+    shine 4.5s ease-in-out infinite;
+}
+
+.brand-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 100%;
+  bottom: -7px;
+
+  height: 2px;
+
+  border-radius: 99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--cyan)
+    );
+
+  transition: right 0.3s;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  right: 0;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid var(--line);
+
+  background: rgba(127, 127, 127, 0.07);
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  transition: 0.25s;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(41, 152, 255, 0.5);
+
+  background:
+    rgba(41, 152, 255, 0.1);
+}
+
+.menu-btn {
+  display: none;
+  font-size: 20px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  min-height: 860px;
+
+  padding-top: 165px;
+  padding-bottom: 90px;
+
+  display: flex;
+  align-items: center;
+}
+
+.hero-grid {
+  display: grid;
+
+  grid-template-columns:
+    1.08fr 0.92fr;
+
+  gap: 55px;
+
+  align-items: center;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 12px;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.3);
+
+  border-radius: 999px;
+
+  background:
+    rgba(25, 207, 201, 0.08);
+
+  color: #16aaa6;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+html.dark .status-pill {
+  color: #b9fffb;
+}
+
+.status-pill span {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #35df8d;
+
+  box-shadow:
+    0 0 14px #58e6a4;
+
+  animation:
+    pulse 1.8s infinite;
+}
+
+.hero h1 {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size:
+    clamp(48px, 6.7vw, 88px);
+
+  line-height: 0.95;
+
+  letter-spacing: -0.06em;
+
+  margin: 24px 0;
+
+  animation:
+    heroText 0.9s 0.12s both;
+}
+
+.hero h1 span {
+  color: var(--text);
+}
+
+.hero h1 em {
+  font-style: normal;
+
+  color: transparent;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--cyan),
+      var(--violet)
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.hero p,
+.section-heading p,
+.card p {
+  color: var(--muted);
+}
+
+.hero p {
+  max-width: 700px;
+
+  font-size: 16px;
+
+  animation:
+    heroText 0.9s 0.28s both;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  margin: 30px 0;
+
+  animation:
+    heroText 0.9s 0.4s both;
+}
+
+.btn,
+.mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 12px;
+
+  font-weight: 800;
+  font-size: 13px;
+
+  transition: 0.3s;
+
+  cursor: pointer;
+}
+
+.btn {
+  padding: 13px 16px;
+
+  border: 1px solid transparent;
+}
+
+.btn:hover,
+.mini:hover {
+  transform: translateY(-3px);
+}
+
+.btn.primary {
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      #5c4be5
+    );
+
+  box-shadow:
+    0 12px 30px
+    rgba(41, 152, 255, 0.2);
+}
+
+.btn.secondary,
+.mini {
+  border: 1px solid var(--line);
+
+  background:
+    rgba(127, 127, 127, 0.06);
+}
+
+.social-row {
+  display: flex;
+  gap: 18px;
+
+  font-size: 21px;
+
+  animation:
+    heroText 0.9s 0.52s both;
+}
+
+.social-row a {
+  transition: 0.25s;
+}
+
+.social-row a:hover {
+  color: var(--cyan);
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   AI ORB
+========================================================= */
+
+.ai-orb {
+  position: relative;
+
+  min-height: 470px;
+
+  display: grid;
+  place-items: center;
+
+  animation:
+    sectionGlow 5s ease-in-out infinite;
+}
+
+.orb-core {
+  position: absolute;
+
+  width: 340px;
+  height: 340px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff,
+      rgba(25, 207, 201, 0.75) 5%,
+      rgba(41, 152, 255, 0.25) 25%,
+      rgba(121, 87, 237, 0.12) 55%,
+      transparent 70%
+    );
+
+  filter:
+    drop-shadow(
+      0 0 45px
+      rgba(41, 152, 255, 0.25)
+    );
+
+  animation:
+    float 6s ease-in-out infinite,
+    pulseGlow 4s ease-in-out infinite;
+}
+
+.orb-ring {
+  position: absolute;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.4);
+
+  border-radius: 50%;
+}
+
+.ring-one {
+  width: 410px;
+  height: 410px;
+
+  animation:
+    spin 18s linear infinite;
+}
+
+.ring-two {
+  width: 260px;
+  height: 260px;
+
+  border-color:
+    rgba(121, 87, 237, 0.3);
+
+  animation:
+    spinReverse 24s linear infinite;
+}
+
+.ai-center {
+  width: 170px;
+  height: 170px;
+
+  border-radius: 28px;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.3);
+
+  background:
+    rgba(6, 9, 20, 0.78);
+
+  backdrop-filter: blur(16px);
+
+  display: grid;
+  place-items: center;
+  align-content: center;
+
+  gap: 8px;
+
+  box-shadow: var(--shadow);
+
+  transform: rotate(3deg);
+
+  z-index: 2;
+}
+
+.ai-center i {
+  color: var(--cyan);
+  font-size: 50px;
+}
+
+.ai-center span {
+  font: 12px monospace;
+  color: #dbeafe;
+}
+
+.orb-node {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 18px var(--cyan);
+
+  animation:
+    nodePulse 2.4s ease-in-out infinite;
+}
+
+.node-one {
+  top: 13%;
+  right: 15%;
+}
+
+.node-two {
+  bottom: 18%;
+  left: 10%;
+
+  animation-delay: 0.6s;
+}
+
+.node-three {
+  top: 45%;
+  right: 4%;
+
+  background: var(--violet);
+
+  box-shadow:
+    0 0 18px var(--violet);
+
+  animation-delay: 1.2s;
+}
+
+/* =========================================================
+   TERMINAL
+========================================================= */
+
+.terminal-card {
+  position: absolute;
+
+  bottom: 0;
+  right: 0;
+
+  width: 320px;
+
+  border: 1px solid var(--line);
+
+  background:
+    rgba(5, 10, 23, 0.88);
+
+  backdrop-filter: blur(16px);
+
+  border-radius: 16px;
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+
+  animation:
+    terminalFloat 7s ease-in-out infinite;
+
+  z-index: 3;
+}
+
+.terminal-top {
+  padding: 10px;
+
+  border-bottom:
+    1px solid var(--line);
+
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-top i {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #65718a;
+}
+
+.terminal-body {
+  padding: 15px;
+
+  font: 12px/2 monospace;
+
+  color: #cbd5e1;
+}
+
+.cursor {
+  animation:
+    blink 1s steps(1) infinite;
+}
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.section-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  align-items: end;
+
+  margin-bottom: 38px;
+}
+
+.section-heading > div {
+  max-width: 760px;
+}
+
+.section-heading p {
+  max-width: 620px;
+  margin: 0;
+}
+
+.eyebrow {
+  font-size: 11px;
+
+  letter-spacing: 0.19em;
+
+  text-transform: uppercase;
+
+  color: var(--cyan);
+
+  font-weight: 900;
+}
+
+h2 {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size:
+    clamp(30px, 4vw, 48px);
+
+  line-height: 1.08;
+
+  letter-spacing: -0.05em;
+
+  margin: 8px 0 0;
+}
+
+h3 {
+  font-family: "Space Grotesk", sans-serif;
+
+  margin: 8px 0;
+
+  line-height: 1.25;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+  border: 1px solid var(--line);
+
+  background: var(--panel);
+
+  backdrop-filter: blur(16px);
+
+  border-radius: 20px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 12px 45px
+    rgba(41, 152, 255, 0.05);
+
+  transition:
+    transform 0.45s,
+    box-shadow 0.45s,
+    border-color 0.45s;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+
+  box-shadow: var(--shadow);
+
+  border-color:
+    rgba(25, 207, 201, 0.28);
+}
+
+.two-col {
+  display: grid;
+
+  grid-template-columns:
+    1.1fr 0.9fr;
+
+  gap: 18px;
+}
+
+.cards-4 {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 15px;
+}
+
+.cards-3 {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skill-icon {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 12px;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    rgba(41, 152, 255, 0.1);
+
+  color: var(--cyan);
+
+  font-weight: 900;
+
+  margin-bottom: 14px;
+}
+
+.skill-card:hover .skill-icon,
+.skill-card:hover .big-icon {
+  animation:
+    iconPulse 0.8s ease-in-out infinite;
+}
+
+.tags {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 14px;
+}
+
+.tags span,
+.status-badge {
+  font-size: 10px;
+
+  padding: 5px 8px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 999px;
+
+  color: var(--muted);
+
+  background:
+    rgba(127, 127, 127, 0.05);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-list {
+  margin-top: 14px;
+}
+
+.profile-list div {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 12px 0;
+
+  border-bottom:
+    1px solid var(--line);
+
+  font-size: 13px;
+}
+
+.profile-list strong {
+  text-align: right;
+}
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline {
+  position: relative;
+
+  display: grid;
+
+  gap: 18px;
+}
+
+.timeline::before {
+  content: "";
+
+  position: absolute;
+
+  left: 19px;
+  top: 18px;
+  bottom: 18px;
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      var(--blue),
+      transparent
+    );
+}
+
+.timeline-item {
+  position: relative;
+
+  padding-left: 55px;
+}
+
+.timeline-dot {
+  position: absolute;
+
+  left: 13px;
+  top: 25px;
+
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  background: var(--bg);
+
+  border:
+    3px solid var(--blue);
+
+  box-shadow:
+    0 0 18px
+    rgba(41, 152, 255, 0.35);
+
+  z-index: 1;
+}
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.workflow {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 20px;
+}
+
+.workflow span {
+  padding: 8px 11px;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.2);
+
+  border-radius: 10px;
+
+  background:
+    rgba(25, 207, 201, 0.05);
+
+  font-size: 11px;
+
+  animation:
+    dataPulse 3s ease-in-out infinite;
+}
+
+.workflow b {
+  color: var(--muted);
+}
+
+/* =========================================================
+   PROJECT FILTER
+========================================================= */
+
+.filter-row {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 20px;
+}
+
+.filter {
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  border:
+    1px solid var(--line);
+
+  background:
+    rgba(127, 127, 127, 0.05);
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+.filter.active {
+  border-color:
+    rgba(41, 152, 255, 0.45);
+
+  background:
+    rgba(41, 152, 255, 0.1);
+
+  box-shadow:
+    0 0 24px
+    rgba(41, 152, 255, 0.14);
+}
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.project-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+}
+
+.project-art {
+  height: 190px;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 58px;
+
+  color: #fff;
+
+  overflow: hidden;
+}
+
+.java-art {
+  background:
+    linear-gradient(
+      135deg,
+      #0d2a57,
+      #3e1f76
+    );
+}
+
+.fit-art {
+  background:
+    linear-gradient(
+      135deg,
+      #063b31,
+      #062d57
+    );
+}
+
+.portfolio-art {
+  background:
+    linear-gradient(
+      135deg,
+      #083d5e,
+      #36206e
+    );
+}
+
+.project-art i {
+  transition:
+    transform 0.6s;
+}
+
+.project:hover .project-art i {
+  transform:
+    scale(1.12)
+    rotate(-4deg);
+}
+
+.project-body {
+  padding: 22px;
+}
+
+.project-label {
+  font-size: 10px;
+
+  padding: 5px 8px;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.3);
+
+  border-radius: 999px;
+
+  color: var(--cyan);
+
+  background:
+    rgba(25, 207, 201, 0.05);
+
+  font-weight: 800;
+}
+
+.project-actions {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 18px;
+
+  flex-wrap: wrap;
+}
+
+.mini {
+  padding: 9px 11px;
+
+  font-size: 11px;
+}
+
+.empty-state {
+  text-align: center;
+}
+
+.empty-state i {
+  font-size: 40px;
+  color: #7b879c;
+}
+
+/* =========================================================
+   CERTIFICATIONS / ACHIEVEMENTS
+   STATIC BACKGROUND
+========================================================= */
+
+#certifications,
+#achievements {
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+   IMPORTANT:
+   No animated background glow is used here.
+   Certificate card/image animations are still active.
+*/
+
+#certifications::before,
+#certifications::after,
+#achievements::before,
+#achievements::after {
+  display: none;
+}
+
+/* =========================================================
+   CERTIFICATES GRID
+========================================================= */
+
+.certificates-grid {
+  position: relative;
+
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 30px;
+
+  margin-top: 40px;
+}
+
+/* =========================================================
+   CERTIFICATE CARD
+========================================================= */
+
+.certificate-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 20px;
+
+  border-radius: 22px;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transform:
+    translateY(60px)
+    scale(0.96);
+
+  animation:
+    certificateReveal
+    1s ease-out
+    forwards;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+/* Second card appears slightly later */
+
+.certificate-card:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+/* Certificate card hover */
+
+.certificate-card:hover {
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   CERTIFICATE NUMBER BADGE
+========================================================= */
+
+.achievement-badge {
+  position: absolute;
+
+  top: 15px;
+  left: 15px;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 0, 0, 0.75);
+
+  backdrop-filter: blur(10px);
+
+  color: white;
+
+  font-weight: 700;
+
+  z-index: 5;
+
+  animation:
+    badgeFloat 3s ease-in-out infinite;
+}
+
+.achievement-badge span {
+  font-size: 14px;
+}
+
+/* =========================================================
+   CERTIFICATE IMAGE WRAPPER
+========================================================= */
+
+.certificate-image-wrapper {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  opacity: 0;
+
+  transform:
+    scale(0.9)
+    rotateX(8deg);
+
+  animation:
+    imageReveal
+    1s ease-out
+    0.4s
+    forwards;
+}
+
+/* Correct second image selector */
+
+.certificate-card:nth-child(2)
+.certificate-image-wrapper {
+  animation-delay: 0.7s;
+}
+
+/* =========================================================
+   CERTIFICATE IMAGE
+========================================================= */
+
+.certificate-image {
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  border-radius: 16px;
+
+  transition:
+    transform 0.7s ease,
+    filter 0.5s ease;
+}
+
+/* Image hover */
+
+.certificate-image-wrapper:hover
+.certificate-image {
+  transform: scale(1.06);
+
+  filter:
+    brightness(1.05)
+    contrast(1.03);
+}
+
+/* =========================================================
+   CERTIFICATE IMAGE SHINE
+========================================================= */
+
+.certificate-image-wrapper::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 55%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.45),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  animation:
+    certificateShine
+    3s ease-in-out
+    1.5s
+    infinite;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   CERTIFICATE CONTENT
+========================================================= */
+
+.certificate-content {
+  padding:
+    20px 5px 5px;
+
+  animation:
+    contentReveal
+    1s ease-out
+    0.8s
+    both;
+}
+
+.certificate-label {
+  display: inline-block;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  opacity: 0.7;
+
+  margin-bottom: 8px;
+}
+
+.certificate-content h3 {
+  margin:
+    5px 0 8px;
+
+  font-size: 24px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.certificate-card:hover
+.certificate-content h3 {
+  transform:
+    translateX(5px);
+}
+
+.certificate-content p {
+  margin: 0;
+
+  line-height: 1.7;
+
+  opacity: 0.75;
+}
+
+/* =========================================================
+   CERTIFICATE BORDER ANIMATION
+========================================================= */
+
+.certificate-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 22px;
+
+  padding: 1px;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(41, 152, 255, 0.6),
+      transparent,
+      rgba(25, 207, 201, 0.5),
+      transparent
+    );
+
+  background-size:
+    300% 300%;
+
+  animation:
+    borderMove
+    5s linear infinite;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0)
+    content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   CERTIFICATE SIMPLE ITEM
+========================================================= */
+
+.certificate-item {
+  width: 100%;
+
+  margin-top: 35px;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transform:
+    translateY(50px);
+
+  animation:
+    certificateReveal
+    1s ease
+    forwards;
+}
+
+.certificate-item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.certificate-item:nth-child(5) {
+  animation-delay: 0.7s;
+}
+
+.certificate-item h4 {
+  margin-bottom: 15px;
+
+  font-size: 1.1rem;
+}
+
+.achievement-image {
+  display: block;
+
+  width: 100%;
+
+  max-width: 850px;
+
+  height: auto;
+
+  margin: 0 auto;
+
+  padding: 8px;
+
+  background: #fff;
+
+  border-radius: 15px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.15);
+
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.achievement-image:hover {
+  transform:
+    scale(1.03)
+    translateY(-8px);
+
+  box-shadow:
+    0 20px 45px
+    rgba(0, 0, 0, 0.25);
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.achievement-grid {
+  max-width: 650px;
+}
+
+.big-icon {
+  font-size: 27px;
+  color: var(--cyan);
+}
+
+/* =========================================================
+   GITHUB
+========================================================= */
+
+.github-card {
+  display: grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  gap: 30px;
+
+  align-items: center;
+}
+
+.github-icon {
+  width: 112px;
+  height: 112px;
+
+  border:
+    1px solid
+    rgba(25, 207, 201, 0.3);
+
+  border-radius: 28px;
+
+  background:
+    rgba(25, 207, 201, 0.05);
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: 52px;
+
+  color: var(--cyan);
+}
+
+/* =========================================================
+   RESUME
+========================================================= */
+
+.center {
+  text-align: center;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-grid {
+  display: grid;
+
+  grid-template-columns:
+    0.85fr 1.15fr;
+
+  gap: 18px;
+}
+
+.contact-list {
+  display: grid;
+
+  gap: 11px;
+
+  margin-top: 18px;
+}
+
+.contact-list a {
+  padding: 13px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 12px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  transition: 0.25s;
+}
+
+.contact-list a:hover {
+  border-color:
+    rgba(25, 207, 201, 0.5);
+
+  color: var(--text);
+
+  transform:
+    translateX(3px);
+}
+
+.contact-list i {
+  color: var(--cyan);
+
+  width: 18px;
+}
+
+.contact-social {
+  margin-top: 22px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+
+  margin-top: 6px;
+
+  padding: 13px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 12px;
+
+  background:
+    rgba(127, 127, 127, 0.06);
+
+  color: var(--text);
+
+  outline: none;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: var(--blue);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(41, 152, 255, 0.1);
+}
+
+.form textarea {
+  min-height: 140px;
+
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.notice {
+  display: none;
+
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+}
+
+.notice.success {
+  display: block;
+
+  color: #7ff0b3;
+
+  background:
+    rgba(52, 211, 153, 0.1);
+
+  border:
+    1px solid
+    rgba(52, 211, 153, 0.2);
+}
+
+.notice.error {
+  display: block;
+
+  color: #ff9c9c;
+
+  background:
+    rgba(239, 68, 68, 0.1);
+
+  border:
+    1px solid
+    rgba(239, 68, 68, 0.2);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+  padding: 40px 0;
+
+  border-top:
+    1px solid var(--line);
+}
+
+.footer-inner {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 30px;
+}
+
+.footer p {
+  color: var(--muted);
+
+  margin: 7px 0 0;
+
+  font-size: 13px;
+}
+
+.footer-links {
+  display: flex;
+
+  gap: 17px;
+
+  align-items: center;
+
+  font-size: 19px;
+}
+
+.top-btn {
+  width: 40px;
+  height: 40px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 12px;
+
+  display: grid;
+
+  place-items: center;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  place-items: center;
+
+  padding: 20px;
+
+  background:
+    rgba(0, 0, 0, 0.72);
+
+  backdrop-filter: blur(8px);
+
+  z-index: 100;
+}
+
+.modal.open {
+  display: grid;
+
+  animation:
+    fadeIn 0.2s ease;
+}
+
+.modal-box {
+  width: min(720px, 100%);
+
+  max-height: 85vh;
+
+  overflow: auto;
+
+  padding: 28px;
+
+  background: var(--bg);
+
+  border:
+    1px solid var(--line);
+
+  border-radius: 24px;
+
+  box-shadow: var(--shadow);
+
+  animation:
+    modalIn 0.3s ease;
+}
+
+.modal-head {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+  opacity: 0;
+
+  transform:
+    translateY(20px);
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+
+  transform: none;
+}
+
+code {
+  padding: 3px 6px;
+
+  border-radius: 6px;
+
+  background:
+    rgba(127, 127, 127, 0.12);
+}
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes heroText {
+  from {
+    opacity: 0;
+    transform:
+      translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float {
+  50% {
+    transform:
+      translateY(-15px);
+  }
+}
+
+@keyframes terminalFloat {
+  50% {
+    transform:
+      translateY(-7px);
+  }
+}
+
+@keyframes dataPulse {
+  50% {
+    transform:
+      translateY(-4px);
+  }
+}
+
+@keyframes iconPulse {
+  50% {
+    transform:
+      translateY(-3px)
+      rotate(-3deg);
+  }
+}
+
+@keyframes nodePulse {
+  50% {
+    transform:
+      scale(1.45);
+
+    box-shadow:
+      0 0 28px currentColor;
+  }
+}
+
+@keyframes gridDrift {
+  to {
+    background-position:
+      55px 55px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  to {
+    transform:
+      rotate(-360deg);
+  }
+}
+
+@keyframes shine {
+  0%,
+  65% {
+    transform:
+      translateX(-120%)
+      rotate(10deg);
+  }
+
+  100% {
+    transform:
+      translateX(120%)
+      rotate(10deg);
+  }
+}
+
+@keyframes pulseGlow {
+  50% {
+    filter:
+      drop-shadow(
+        0 0 70px
+        rgba(41, 152, 255, 0.42)
+      );
+  }
+}
+
+@keyframes pulse {
+  50% {
+    transform:
+      scale(1.35);
+
+    opacity: 0.65;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   CERTIFICATE ANIMATIONS
+========================================================= */
+
+@keyframes certificateReveal {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(60px)
+      scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes imageReveal {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.9)
+      rotateX(8deg);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      rotateX(0);
+  }
+}
+
+@keyframes certificateShine {
+  0% {
+    left: -120%;
+  }
+
+  45% {
+    left: 140%;
+  }
+
+  100% {
+    left: 140%;
+  }
+}
+
+@keyframes contentReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes badgeFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-7px);
+  }
+}
+
+@keyframes borderMove {
+  0% {
+    background-position:
+      0% 50%;
+  }
+
+  50% {
+    background-position:
+      100% 50%;
+  }
+
+  100% {
+    background-position:
+      0% 50%;
+  }
+}
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .menu-btn {
+    display: grid;
+  }
+
+  .nav-links.mobile-open {
+    position: absolute;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 2px;
+
+    left: 10px;
+    right: 10px;
+    top: 72px;
+
+    padding: 10px;
+
+    border:
+      1px solid var(--line);
+
+    border-radius: 15px;
+
+    background: var(--nav);
+
+    backdrop-filter: blur(22px);
+
+    box-shadow: var(--shadow);
+  }
+
+  .nav-links.mobile-open a {
+    padding: 10px 12px;
+
+    border-radius: 9px;
+  }
+
+  .nav-links.mobile-open a:hover {
+    background:
+      rgba(41, 152, 255, 0.08);
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-orb {
+    min-height: 420px;
+  }
+
+  .hero {
+    padding-top: 140px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 980px) {
+
+  .two-col,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-4 {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .project-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .section-heading {
+    display: block;
+  }
+
+  .section-heading p {
+    margin-top: 12px;
+  }
+
+  .github-card {
+    grid-template-columns: 1fr;
+  }
+
+  .certificates-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .container {
+    width:
+      min(
+        1180px,
+        calc(100% - 24px)
+      );
+  }
+
+  .section {
+    padding: 75px 0;
+  }
+
+  .cards-3,
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .certificates-grid {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+  .certificate-card {
+    padding: 15px;
+
+    border-radius: 18px;
+  }
+
+  .certificate-image,
+  .certificate-image-wrapper {
+    border-radius: 14px;
+  }
+
+  .certificate-content h3 {
+    font-size: 21px;
+  }
+
+  .hero {
+    min-height: auto;
+
+    padding:
+      120px 0 60px;
+  }
+
+  .hero h1 {
+    font-size: 50px;
+  }
+
+  .orb-core {
+    width: 230px;
+    height: 230px;
+  }
+
+  .ring-one {
+    width: 290px;
+    height: 290px;
+  }
+
+  .ring-two {
+    width: 185px;
+    height: 185px;
+  }
+
+  .ai-center {
+    width: 135px;
+    height: 135px;
+  }
+
+  .ai-center i {
+    font-size: 40px;
+  }
+
+  .terminal-card {
+    width: 280px;
+    right: 0;
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .brand-name {
+    max-width: 210px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .cards-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+  }
+
+  .terminal-card {
+    position: relative;
+
+    bottom: auto;
+    right: auto;
+
+    margin-top: 240px;
+
+    width:
+      min(280px, 90%);
+  }
+
+  .ai-orb {
+    min-height: 620px;
+  }
+
+  .profile-list div {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
+  .profile-list strong {
+    text-align: left;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .certificates-grid {
+    margin-top: 30px;
+  }
+
+  .certificate-card {
+    border-radius: 18px;
+  }
+
+  .certificate-image,
+  .certificate-image-wrapper {
+    border-radius: 14px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+
+    scroll-behavior: auto !important;
+
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+
+    transform: none;
+  }
+}
